@@ -1,10 +1,39 @@
-from math import cos,sin,pi
-from scipy.fftpack import dct,idct, fft, ifft   
+from scipy.fftpack import fft, ifft   
 import numpy as np
-import random
 from PIL import Image, ImageDraw,ImageFont
 import os
-from cdt import *
+
+matriz = [(49,57,34,31,33,28,14,29),
+          (20,24,21,20,17,16,18,22),
+          (19,20,22,16,12,14,14,35),
+          (17,18,16,15,13,22,25,68),
+          (47,27,32,26,7,28,46,54),
+          (71,46,45,60,24,38,65,37),
+          (70,86,37,52,57,53,29,96),
+          (66,84,80,44,29,40,93,175)]
+
+#Matriz cuantificada: Se saca para saber que tanta calidad necesitamos reducir a la imagen
+Q= [(16,11,10,16,24,40,51,61),
+    (12,12,14,19,26,58,60,55),
+    (14,13,16,24,40,57,69,56),
+    (14,17,22,29,51,87,80,62),
+    (18,22,37,56,68,109,103,77),
+    (24,35,55,64,81,104,113,92),
+    (49,64,78,87,103,121,120,101),
+    (72,92,95,98,112,100,103,99)]
+
+qa = np.zeros((8,8))
+for i in range(8):
+    for j in range(8):
+        qa[i][j] = Q[i][j]
+
+#Funcion que crea una matriz temporal
+def matrixTemporal(matriz):
+    a = np.zeros((8,8))
+    for i in range(8):
+        for j in range(8):
+            a[i][j] = matriz[i][j] - 128.0
+    return a
 
 
 #Tamano de la imagen: Funcion que determina el tamano de la imagen original
